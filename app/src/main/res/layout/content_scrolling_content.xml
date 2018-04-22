@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ScrollingContentActivity"
+    tools:showIn="@layout/activity_scrolling_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="363dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:text="Charts:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textFillerSportChart"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Sport rate measured in the percentage of weekly sporters in the neighbourhood"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textSportChart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/colorPrimary"
+            android:visibility="visible"
+            tools:text="Sport Chart" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/SportChart"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="89dp">
+
+        </com.github.mikephil.charting.charts.PieChart>
+
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/textFillerCrimeChart"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Crime rate measured in disturbance relative to the inhabitants of the neighbourhood"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textCrimeChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible"
+                tools:text="Crime Chart" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/CrimeChart"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="89dp">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textFillerComparisonChart"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:gravity="center"
+            android:text="Relation between Sports and the relative crime rate in each neighbourhood. The upper bar of the group is the percentage of sporters and the lower bar is the relative disturbance in the neighbourhood"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textComparisonChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:visibility="visible"
+                android:textSize="16dp"
+                android:textColor="@color/colorPrimary"
+                tools:text="Comparison Chart" />
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/ComparisonChart"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="89dp">
+
+            </com.github.mikephil.charting.charts.HorizontalBarChart>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
