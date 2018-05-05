@@ -1,4 +1,5 @@
 package com.example.alex.crimileef.Dbal;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.FieldValueList;
@@ -8,11 +9,21 @@ import com.google.cloud.bigquery.JobInfo;
 import com.google.cloud.bigquery.QueryJobConfiguration;
 import com.google.cloud.bigquery.QueryResponse;
 import com.google.cloud.bigquery.TableResult;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.UUID;
 
 public class DataAccess {
     public static void main(String... args) throws Exception {
-        BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
+
+        File file = new File("C:/Users/Alex/Downloads/ds44groupA-d42e864f1b7c.json");
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(file));
+        BigQuery bigquery = BigQueryOptions.newBuilder()
+                .setCredentials(credentials)
+                .setProjectId("ds44groupa")
+                .build()
+                .getService();
         QueryJobConfiguration queryConfig =
                 QueryJobConfiguration.newBuilder(
                         "SELECT "
