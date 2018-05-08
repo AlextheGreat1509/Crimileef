@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -130,8 +131,10 @@ public class ScrollingContentActivity extends AppCompatActivity {
         crimeChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                float value = e.getY();
-                textCrimeChart.setText("Amount of relative disturbances per neighbourhood :" + Float.toString(value));
+                PieEntry temp = (PieEntry) e;
+                float value = temp.getValue();
+                textCrimeChart.setText("Amount of relative disturbances in " + temp.getLabel() +":" + Float.toString(value));
+                ChangeBackground(R.drawable.ic_launcher_background);
                 popup(Float.toString(value));
             }
 
@@ -275,6 +278,12 @@ public class ScrollingContentActivity extends AppCompatActivity {
     public void popup(String text) {
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public void ChangeBackground(int drawable){
+        View someView = findViewById(R.id.textView2);
+        View root = someView.getRootView();
+        root.setBackgroundResource(drawable);
     }
 
 }
