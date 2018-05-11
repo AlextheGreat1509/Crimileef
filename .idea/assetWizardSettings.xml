@@ -16,26 +16,13 @@
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
-                                  <option name="children">
-                                    <map>
-                                      <entry key="foregroundImage">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="scalingPercent" value="178" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="C:\Users\Alex\Pictures\city.jpg" />
-                                      <entry key="foregroundImage" value="C:\Users\Alex\Pictures\city.jpg" />
-                                      <entry key="outputName" value="ic_city" />
+                                      <entry key="backgroundImage" value="C:\Users\Alex\Pictures\Gestel.jpg" />
+                                      <entry key="foregroundImage" value="C:\Users\Alex\Pictures\Gestel.jpg" />
+                                      <entry key="legacyIconShape" value="VRECT" />
+                                      <entry key="outputName" value="ic_gestel" />
+                                      <entry key="webIconShape" value="VRECT" />
                                     </map>
                                   </option>
                                 </PersistentState>

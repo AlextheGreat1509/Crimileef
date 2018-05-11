@@ -89,11 +89,15 @@ public class ScrollingContentActivity extends AppCompatActivity {
 
         sportChart.setDescription(null);
         sportChart.setClickable(true);
+        sportChart.setBackgroundColor(Color.TRANSPARENT);
+        sportChart.setHoleColor(Color.TRANSPARENT);
         sportChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                float value = e.getY();
-                textSportChart.setText("Amount of people sporting atleast once per week:" + Float.toString(value) + "%");
+                PieEntry temp = (PieEntry) e;
+                float value = temp.getY();
+                textSportChart.setText("Amount of people sporting atleast once per week in " + temp.getLabel() + ":" + Float.toString(value) + "%");
+                SelectBackground(temp.getLabel());
                 popup(Float.toString(value));
             }
 
@@ -128,13 +132,15 @@ public class ScrollingContentActivity extends AppCompatActivity {
 
         crimeChart.setClickable(true);
         crimeChart.setDescription(null);
+        crimeChart.setBackgroundColor(Color.TRANSPARENT);
+        crimeChart.setHoleColor(Color.TRANSPARENT);
         crimeChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 PieEntry temp = (PieEntry) e;
                 float value = temp.getValue();
                 textCrimeChart.setText("Amount of relative disturbances in " + temp.getLabel() +":" + Float.toString(value));
-                ChangeBackground(R.drawable.ic_launcher_background);
+                SelectBackground(temp.getLabel());
                 popup(Float.toString(value));
             }
 
@@ -214,6 +220,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
         legend.setEnabled(false);
 
         comparisonChart.setFitBars(false);
+        comparisonChart.setBackgroundColor(Color.TRANSPARENT);
         comparisonChart.getAxisLeft().setAxisMaximum(68);
         comparisonChart.getAxisLeft().setAxisMinimum(5);
         comparisonChart.setData(comparisonData);
@@ -284,6 +291,39 @@ public class ScrollingContentActivity extends AppCompatActivity {
         View someView = findViewById(R.id.textView2);
         View root = someView.getRootView();
         root.setBackgroundResource(drawable);
+    }
+
+    public void SelectBackground(String neighborhood){
+        switch (neighborhood) {
+
+            case "Gestel":
+                ChangeBackground(R.drawable.gestel);
+                break;
+
+            case "Strijp":
+                ChangeBackground(R.mipmap.ic_gestel_background);
+                break;
+
+            case "Centrum":
+                ChangeBackground(R.mipmap.ic_gestel_background);
+                break;
+
+            case "Stratum":
+                ChangeBackground(R.drawable.stratum);
+                break;
+
+            case "Woensel-Zuid":
+                ChangeBackground(R.mipmap.ic_gestel_background);
+                break;
+
+            case "Woensel-Noord":
+                ChangeBackground(R.mipmap.ic_gestel_background);
+                break;
+
+            case "Tongelre":
+                ChangeBackground(R.mipmap.ic_gestel_background);
+                break;
+        }
     }
 
 }
