@@ -25,6 +25,8 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,9 @@ public class ScrollingContentActivity extends AppCompatActivity {
     TextView textDescSport;
     TextView textDescCrime;
     TextView textDescComparison;
+    TextView textCharts;
+    TextView textConclusion;
+    TextView textDescConclusion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("City Data: ");
+        getSupportActionBar().setTitle("City Data");
 
         sportChart = (PieChart) findViewById(R.id.SportChart);
         crimeChart = (PieChart) findViewById(R.id.CrimeChart);
@@ -62,6 +67,9 @@ public class ScrollingContentActivity extends AppCompatActivity {
         textDescSport = (TextView) findViewById(R.id.textFillerSportChart);
         textDescCrime = (TextView) findViewById(R.id.textFillerCrimeChart);
         textDescComparison = (TextView) findViewById(R.id.textFillerComparisonChart);
+        textCharts = (TextView) findViewById(R.id.textCharts);
+        textConclusion = (TextView) findViewById(R.id.textConclusion);
+        textDescConclusion = (TextView) findViewById(R.id.textFillerConclusion);
 
         List<PieEntry> sportEntries = new ArrayList<PieEntry>();
 
@@ -334,6 +342,8 @@ public class ScrollingContentActivity extends AppCompatActivity {
     }
 
     public void setTextForBackground(){
+        textCharts.setTextColor(Color.WHITE);
+        textCharts.setShadowLayer(50,0,0, Color.BLACK);
         textCrimeChart.setTextColor(Color.WHITE);
         textCrimeChart.setShadowLayer(50,0,0, Color.BLACK);
         textSportChart.setTextColor(Color.WHITE);
@@ -348,6 +358,10 @@ public class ScrollingContentActivity extends AppCompatActivity {
         textDescComparison.setShadowLayer(50,0,0, Color.BLACK);
         xaxis.setTextColor(Color.WHITE);
         xaxis.setTextSize(12);
+        textConclusion.setTextColor(Color.WHITE);
+        textConclusion.setShadowLayer(50,0,0, Color.BLACK);
+        textDescConclusion.setTextColor(Color.rgb(224, 249, 218));
+        textDescConclusion.setShadowLayer(50,0,0, Color.BLACK);
         comparisonChart.invalidate();
     }
 
