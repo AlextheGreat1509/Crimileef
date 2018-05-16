@@ -1,19 +1,10 @@
 package com.example.alex.crimileef;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +24,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +33,14 @@ public class ScrollingContentActivity extends AppCompatActivity {
     PieChart sportChart;
     PieChart crimeChart;
     HorizontalBarChart comparisonChart;
+    XAxis xaxis;
 
     TextView textSportChart;
     TextView textCrimeChart;
     TextView textComparisonChart;
+    TextView textDescSport;
+    TextView textDescCrime;
+    TextView textDescComparison;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +59,9 @@ public class ScrollingContentActivity extends AppCompatActivity {
         textCrimeChart.setText("Crime Chart Eindhoven");
         textComparisonChart = (TextView) findViewById(R.id.textComparisonChart);
         textComparisonChart.setText("Relation between crime and sport in Eindhoven");
+        textDescSport = (TextView) findViewById(R.id.textFillerSportChart);
+        textDescCrime = (TextView) findViewById(R.id.textFillerCrimeChart);
+        textDescComparison = (TextView) findViewById(R.id.textFillerComparisonChart);
 
         List<PieEntry> sportEntries = new ArrayList<PieEntry>();
 
@@ -192,7 +189,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
         comparisonData.setDrawValues(true);
         comparisonChart.animateY(2000);
 
-        XAxis xaxis = comparisonChart.getXAxis();
+        xaxis = comparisonChart.getXAxis();
         xaxis.setDrawGridLines(false);
         xaxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xaxis.setGranularityEnabled(true);
@@ -233,7 +230,10 @@ public class ScrollingContentActivity extends AppCompatActivity {
         comparisonChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                float value = e.getY();
+                BarEntry temp = (BarEntry) e;
+                float value = temp.getY();
+                String neighborhood = (String) temp.getData();
+                SelectBackground(neighborhood);
                 textComparisonChart.setText("Value: " + value);
             }
 
@@ -288,7 +288,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
     }
 
     public void ChangeBackground(int drawable){
-        View someView = findViewById(R.id.textView2);
+        View someView = findViewById(R.id.textCharts);
         View root = someView.getRootView();
         root.setBackgroundResource(drawable);
     }
@@ -298,32 +298,57 @@ public class ScrollingContentActivity extends AppCompatActivity {
 
             case "Gestel":
                 ChangeBackground(R.drawable.gestel);
+                setTextForBackground();
                 break;
 
             case "Strijp":
-                ChangeBackground(R.mipmap.ic_gestel_background);
+                ChangeBackground(R.drawable.strijp);
+                setTextForBackground();
                 break;
 
             case "Centrum":
-                ChangeBackground(R.mipmap.ic_gestel_background);
+                ChangeBackground(R.drawable.centrum);
+                setTextForBackground();
                 break;
 
             case "Stratum":
                 ChangeBackground(R.drawable.stratum);
+                setTextForBackground();
                 break;
 
             case "Woensel-Zuid":
-                ChangeBackground(R.mipmap.ic_gestel_background);
+                ChangeBackground(R.drawable.woensel);
+                setTextForBackground();
                 break;
 
             case "Woensel-Noord":
-                ChangeBackground(R.mipmap.ic_gestel_background);
+                ChangeBackground(R.drawable.woensel);
+                setTextForBackground();
                 break;
 
             case "Tongelre":
-                ChangeBackground(R.mipmap.ic_gestel_background);
+                ChangeBackground(R.drawable.tongelre);
+                setTextForBackground();
                 break;
         }
+    }
+
+    public void setTextForBackground(){
+        textCrimeChart.setTextColor(Color.WHITE);
+        textCrimeChart.setShadowLayer(50,0,0, Color.BLACK);
+        textSportChart.setTextColor(Color.WHITE);
+        textSportChart.setShadowLayer(50,0,0, Color.BLACK);
+        textComparisonChart.setTextColor(Color.WHITE);
+        textComparisonChart.setShadowLayer(50,0,0, Color.BLACK);
+        textDescSport.setTextColor(Color.rgb(224, 249, 218));
+        textDescSport.setShadowLayer(50,0,0, Color.BLACK);
+        textDescCrime.setTextColor(Color.rgb(224, 249, 218));
+        textDescCrime.setShadowLayer(50,0,0, Color.BLACK);
+        textDescComparison.setTextColor(Color.rgb(224, 249, 218));
+        textDescComparison.setShadowLayer(50,0,0, Color.BLACK);
+        xaxis.setTextColor(Color.WHITE);
+        xaxis.setTextSize(12);
+        comparisonChart.invalidate();
     }
 
 }
