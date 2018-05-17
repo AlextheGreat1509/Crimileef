@@ -195,7 +195,6 @@ public class ScrollingContentActivity extends AppCompatActivity {
         BarData comparisonData = new BarData(comparisonDataSetCrime,comparisonDataSetSport);
         comparisonData.setBarWidth(0.45f);
         comparisonData.setDrawValues(true);
-        comparisonChart.animateY(2000);
 
         xaxis = comparisonChart.getXAxis();
         xaxis.setDrawGridLines(false);
