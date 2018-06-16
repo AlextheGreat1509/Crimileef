@@ -1,32 +1,44 @@
 package com.example.alex.crimileef.Dbal;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DataAccessDatabase {
-    public static void main(String[] args) {
 
         // Create a variable for the connection string.
-        String connectionUrl = "jdbc:sqlserver://localhost:1433;" +
+        private String connectionUrl = "jdbc:jtds:sqlserver://192.168.1.207:1433;" +
                 "databaseName=Crimileef;user=App;password=App123";
 
         // Declare the JDBC objects.
         Connection con = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        try {
-            // Establish the connection.
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            // Create and execute an SQL statement that returns some data.
-            String SQL = "SELECT TOP 10 * FROM Person.Contact";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            // Iterate through the data in the result set and display it.
-            while (rs.next()) {
-                System.out.println(rs.getString(4) + " " + rs.getString(6));
+        // Establish the connection.
+        public Connection getCon(){
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                con = DriverManager.getConnection(connectionUrl);
+            }catch(Exception e){
+                e.printStackTrace();
             }
+            return con;
+        }
+
+    public ArrayList<String> getCities(){
+        ArrayList<String> cities = new ArrayList<>();
+        try {
+            getCon();
+            // Create and execute an SQL statement that returns some data.
+            String SQL = "Select Distinct City from Crimileef; ";
+
+            stmt = con.prepareStatement(SQL);
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                cities.add(rs.getString("City"));
+                System.out.println(cities.toString());
+            }
+            return cities;
         }
 
         // Handle any errors that may have occurred.
@@ -38,5 +50,11 @@ public class DataAccessDatabase {
             if (stmt != null) try { stmt.close(); } catch(Exception e) {}
             if (con != null) try { con.close(); } catch(Exception e) {}
         }
+        return cities;
+    }
+
+    public static void main(String... args) {
+        DataAccessDatabase database = new DataAccessDatabase();
+        database.getCities();
     }
 }

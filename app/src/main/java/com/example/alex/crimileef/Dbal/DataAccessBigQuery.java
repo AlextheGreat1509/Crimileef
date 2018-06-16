@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.UUID;
 
-public class DataAccess {
+public class DataAccessBigQuery {
     public static void main(String... args) throws Exception {
 
         File file = new File("C:/Users/Alex/Downloads/ds44groupA-d42e864f1b7c.json");
