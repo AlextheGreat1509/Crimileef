@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alex.crimileef.Dbal.DataAccessDatabase;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -36,6 +37,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
     PieChart crimeChart;
     HorizontalBarChart comparisonChart;
     XAxis xaxis;
+    DataAccessDatabase database = new DataAccessDatabase();
 
     TextView textSportChart;
     TextView textCrimeChart;
@@ -54,16 +56,16 @@ public class ScrollingContentActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("City Data");
-
+        String city = getIntent().getStringExtra("City");
         sportChart = (PieChart) findViewById(R.id.SportChart);
         crimeChart = (PieChart) findViewById(R.id.CrimeChart);
         comparisonChart = (HorizontalBarChart) findViewById(R.id.ComparisonChart); 
         textSportChart = (TextView) findViewById(R.id.textSportChart);
-        textSportChart.setText("Sport Chart Eindhoven");
+        textSportChart.setText("Sport Chart " + city);
         textCrimeChart = (TextView) findViewById(R.id.textCrimeChart);
-        textCrimeChart.setText("Crime Chart Eindhoven");
+        textCrimeChart.setText("Crime Chart " + city);
         textComparisonChart = (TextView) findViewById(R.id.textComparisonChart);
-        textComparisonChart.setText("Relation between crime and sport in Eindhoven");
+        textComparisonChart.setText("Relation between crime and sport in" + city);
         textDescSport = (TextView) findViewById(R.id.textFillerSportChart);
         textDescCrime = (TextView) findViewById(R.id.textFillerCrimeChart);
         textDescComparison = (TextView) findViewById(R.id.textFillerComparisonChart);
@@ -71,15 +73,11 @@ public class ScrollingContentActivity extends AppCompatActivity {
         textConclusion = (TextView) findViewById(R.id.textConclusion);
         textDescConclusion = (TextView) findViewById(R.id.textFillerConclusion);
 
-        List<PieEntry> sportEntries = new ArrayList<PieEntry>();
-
-        sportEntries.add(new PieEntry(60, "Gestel"));
-        sportEntries.add(new PieEntry(67, "Strijp"));
-        sportEntries.add(new PieEntry(67, "Centrum"));
-        sportEntries.add(new PieEntry(68, "Stratum"));
-        sportEntries.add(new PieEntry(62, "Woensel-Zuid"));
-        sportEntries.add(new PieEntry(61, "Woensel-Noord"));
-        sportEntries.add(new PieEntry(62, "Tongelre"));
+        //Initialize our data using the database and the choice the user made
+        List<PieEntry> sportEntries = database.getSportData(city);
+        List<PieEntry> crimeEntries = database.getCrimeData(city);
+        List<BarEntry> comparisonEntriesCrime = database.getComparisonCrimeData(city);
+        List<BarEntry> comparisonEntriesSport = database.getComparisonSportData(city);
 
         PieDataSet sportDataSet = new PieDataSet(sportEntries, ""); // add entries to dataset
         sportDataSet.setColors(new int[]{Color.rgb(192, 0, 0), Color.rgb(255, 0, 0), Color.rgb(255, 192, 0),
@@ -101,7 +99,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
             public void onValueSelected(Entry e, Highlight h) {
                 PieEntry temp = (PieEntry) e;
                 float value = temp.getY();
-                textSportChart.setText("Amount of people sporting atleast once per week in " + temp.getLabel() + ":" + Float.toString(value) + "%");
+                textSportChart.setText("Amount of people sporting atleast once per week in " + temp.getLabel() + ": " + Float.toString(value) + "%");
                 SelectBackground(temp.getLabel());
                 popup(Float.toString(value));
             }
@@ -113,16 +111,6 @@ public class ScrollingContentActivity extends AppCompatActivity {
         });
 
         sportChart.invalidate(); // refresh
-
-        List<PieEntry> crimeEntries = new ArrayList<PieEntry>();
-
-        crimeEntries.add(new PieEntry(16.3f, "Gestel"));
-        crimeEntries.add(new PieEntry(7.9f, "Strijp"));
-        crimeEntries.add(new PieEntry(17.3f, "Centrum"));
-        crimeEntries.add(new PieEntry(17.1f, "Stratum"));
-        crimeEntries.add(new PieEntry(15.7f, "Woensel-Zuid"));
-        crimeEntries.add(new PieEntry(7.5f, "Woensel-Noord"));
-        crimeEntries.add(new PieEntry(11.3f, "Tongelre"));
 
         PieDataSet crimeDataSet = new PieDataSet(crimeEntries, ""); // add entries to dataset
         crimeDataSet.setColors(new int[]{Color.rgb(192, 0, 0), Color.rgb(255, 0, 0), Color.rgb(255, 192, 0),
@@ -144,7 +132,7 @@ public class ScrollingContentActivity extends AppCompatActivity {
             public void onValueSelected(Entry e, Highlight h) {
                 PieEntry temp = (PieEntry) e;
                 float value = temp.getValue();
-                textCrimeChart.setText("Amount of relative disturbances in " + temp.getLabel() +":" + Float.toString(value));
+                textCrimeChart.setText("Amount of relative disturbances in " + temp.getLabel() +": " + Float.toString(value));
                 SelectBackground(temp.getLabel());
                 popup(Float.toString(value));
             }
@@ -157,32 +145,12 @@ public class ScrollingContentActivity extends AppCompatActivity {
 
         crimeChart.invalidate(); // refresh
 
-        List<BarEntry> comparisonEntriesSport = new ArrayList<BarEntry>();
-
-        comparisonEntriesSport.add(new BarEntry(0,60f, "Gestel"));
-        comparisonEntriesSport.add(new BarEntry(1,67f, "Strijp"));
-        comparisonEntriesSport.add(new BarEntry(2,67f, "Centrum"));
-        comparisonEntriesSport.add(new BarEntry(3,68f, "Stratum"));
-        comparisonEntriesSport.add(new BarEntry(4,62f, "Woensel-Zuid"));
-        comparisonEntriesSport.add(new BarEntry(5,61f, "Woensel-Noord"));
-        comparisonEntriesSport.add(new BarEntry(6,62f, "Tongelre"));
-
         BarDataSet comparisonDataSetSport = new BarDataSet(comparisonEntriesSport,""); // add entries to dataset
         comparisonDataSetSport.setColors(new int[]{Color.rgb(192, 0, 0), Color.rgb(255, 0, 0), Color.rgb(255, 192, 0),
                 Color.rgb(127, 127, 127), Color.rgb(146, 208, 80), Color.rgb(0, 176, 80), Color.rgb(79, 129, 189)});
         comparisonDataSetSport.setValueTextColor(2); // styling, ...
         //comparisonDataSetSport.setStackLabels(getXAxisValues().toArray(new String[0]));
         comparisonDataSetSport.setDrawValues(true);
-
-        List<BarEntry> comparisonEntriesCrime = new ArrayList<BarEntry>();
-
-        comparisonEntriesCrime.add(new BarEntry(0,11.3f, "Gestel"));
-        comparisonEntriesCrime.add(new BarEntry(1,7.5f, "Strijp"));
-        comparisonEntriesCrime.add(new BarEntry(2,16.3f, "Centrum"));
-        comparisonEntriesCrime.add(new BarEntry(3,7.9f, "Stratum"));
-        comparisonEntriesCrime.add(new BarEntry(4,17.1f, "Woensel-Zuid"));
-        comparisonEntriesCrime.add(new BarEntry(5,15.7f, "Woensel-Noord"));
-        comparisonEntriesCrime.add(new BarEntry(6,17.3f, "Tongelre"));
 
         final BarDataSet comparisonDataSetCrime = new BarDataSet(comparisonEntriesCrime,""); // add entries to dataset
 

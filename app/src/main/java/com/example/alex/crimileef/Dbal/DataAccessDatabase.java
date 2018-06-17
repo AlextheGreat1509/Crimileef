@@ -1,4 +1,7 @@
 package com.example.alex.crimileef.Dbal;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieEntry;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -53,8 +56,121 @@ public class DataAccessDatabase {
         return cities;
     }
 
-    public static void main(String... args) {
-        DataAccessDatabase database = new DataAccessDatabase();
-        database.getCities();
+    public ArrayList<PieEntry> getSportData(String city){
+        ArrayList<PieEntry> sportEntries = new ArrayList<>();
+        try {
+            getCon();
+            // Create and execute an SQL statement that returns some data.
+            String SQL = "SELECT District, Value from Crimileef Where City = ? AND Category = 'Sport'; ";
+
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, city);
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                sportEntries.add(new PieEntry(rs.getInt("Value"), rs.getString("District")));
+            }
+            return sportEntries;
+        }
+
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return sportEntries;
+    }
+
+    public ArrayList<PieEntry> getCrimeData(String city){
+        ArrayList<PieEntry> crimeEntries = new ArrayList<>();
+        try {
+            getCon();
+            // Create and execute an SQL statement that returns some data.
+            String SQL = "SELECT District, Value from Crimileef Where City = ? AND Category = 'Crime'; ";
+
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, city);
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                crimeEntries.add(new PieEntry(rs.getFloat("Value"), rs.getString("District")));
+            }
+            return crimeEntries;
+        }
+
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return crimeEntries;
+    }
+
+    public ArrayList<BarEntry> getComparisonSportData(String city){
+        ArrayList<BarEntry> comparisonSportEntries = new ArrayList<>();
+        try {
+            getCon();
+            // Create and execute an SQL statement that returns some data.
+            String SQL = "SELECT District, Value from Crimileef Where City = ? AND Category = 'Sport'; ";
+
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, city);
+            rs = stmt.executeQuery();
+            int i = 0;
+            while(rs.next()){
+                comparisonSportEntries.add(new BarEntry(i,rs.getFloat("Value"), rs.getString("District")));
+                i++;
+            }
+            return comparisonSportEntries;
+        }
+
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return comparisonSportEntries;
+    }
+
+    public ArrayList<BarEntry> getComparisonCrimeData(String city){
+        ArrayList<BarEntry> comparisonCrimeEntries = new ArrayList<>();
+        try {
+            getCon();
+            // Create and execute an SQL statement that returns some data.
+            String SQL = "SELECT District, Value from Crimileef Where City = ? AND Category = 'Crime'; ";
+
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, city);
+            rs = stmt.executeQuery();
+            int i = 0;
+            while(rs.next()){
+                comparisonCrimeEntries.add(i, new BarEntry(i, rs.getFloat("Value"), rs.getString("District")));
+                i++;
+            }
+            return comparisonCrimeEntries;
+        }
+
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return comparisonCrimeEntries;
     }
 }

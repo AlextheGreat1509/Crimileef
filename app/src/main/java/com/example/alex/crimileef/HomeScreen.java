@@ -36,13 +36,12 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
         setContentView(R.layout.activity_home_screen);
-        Spinner dropdown = findViewById(R.id.spinner1);
+        final Spinner dropdown = findViewById(R.id.spinner1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         items = database.getCities();
@@ -54,18 +53,13 @@ public class HomeScreen extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeScreen.this, ScrollingContentActivity.class));
+                Intent intent = new Intent(getBaseContext(), ScrollingContentActivity.class);
+                String city = dropdown.getSelectedItem().toString();
+                intent.putExtra("City", city);
+                startActivity(intent);
             }
         });
 
 
     }
-    private class getCities extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            items = database.getCities();
-            return "executed!";
-        }
-    }
-    }
+}
